@@ -686,3 +686,61 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+
+// script.js
+
+// Fungsi untuk menyimpan data ke Firebase
+function simpanJadwalKeFirebase(tanggal, kegiatan, waktu) {
+  // Kirim data ke koleksi 'jadwal_video'
+  db.collection("jadwal_video").add({
+    tanggal: tanggal,
+    kegiatan: kegiatan,
+    waktu: waktu,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp() // Untuk waktu pencatatan
+  })
+  .then((docRef) => {
+    console.log("Data berhasil disimpan dengan ID: ", docRef.id);
+    alert("Jadwal berhasil disimpan!");
+  })
+  .catch((error) => {
+    console.error("Error saat menyimpan: ", error);
+    alert("Gagal menyimpan jadwal.");
+  });
+}
+
+// --- Contoh integrasi dengan tombol di situs Anda ---
+document.getElementById('tombol-simpan').addEventListener('click', () => {
+  // Asumsi Anda mendapatkan data dari input/tabel di HTML
+  const inputTanggal = document.getElementById('input-tanggal').value;
+  const inputKegiatan = document.getElementById('input-kegiatan').value;
+  const inputWaktu = document.getElementById('input-waktu').value;
+  
+  simpanJadwalKeFirebase(inputTanggal, inputKegiatan, inputWaktu);
+});
+
+// script.js (Lanjutan)
+
+// Fungsi untuk memuat data dari Firebase saat situs dimuat
+function muatJadwalDariFirebase() {
+  db.collection("jadwal_video").orderBy("tanggal", "asc").get()
+    .then((querySnapshot) => {
+      // Membersihkan tabel/kalender yang lama
+      
+      querySnapshot.forEach((doc) => {
+        // Mendapatkan data dari Firebase
+        const dataJadwal = doc.data();
+        
+        // --- LOGIKA MENAMPILKAN DATA KE KALENDER/TABEL ANDA ---
+        console.log("Data dimuat:", dataJadwal.tanggal, dataJadwal.kegiatan);
+        
+        // Di sini Anda akan menambahkan kode JS Anda untuk mengisi tabel HTML
+        // dengan dataJadwal.tanggal dan dataJadwal.kegiatan
+      });
+    })
+    .catch((error) => {
+      console.log("Error saat memuat data: ", error);
+    });
+}
+
+// Panggil fungsi saat halaman selesai dimuat
+window.onload = muatJadwalDariFirebase;

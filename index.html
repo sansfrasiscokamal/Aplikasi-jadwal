@@ -176,7 +176,24 @@
         </div>
 
     </div>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-    <script src="script.js"></script>
+<script>
+  // ** GANTI DENGAN KODE KONFIGURASI PROYEK ANDA DARI KONSOL FIREBASE **
+  const firebaseConfig = {
+    apiKey: "AIzaSyC... (kunci API Anda)",
+    authDomain: "aplikasi-jadwal.firebaseapp.com",
+    projectId: "aplikasi-jadwal", // ID Proyek Anda
+    // ... detail lainnya
+  };
+
+  // Inisialisasi Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Inisialisasi Firestore Database
+  const db = firebase.firestore();
+</script>
+<script src="script.js"></script>
 </body>
 </html>
