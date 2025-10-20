@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender Penjadwalan Upload Video</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Jadwal Upload Video</h1>
+            <div class="header-actions">
+                <button id="show-analysis-btn" class="btn btn-warning"><i class="fas fa-chart-line"></i> Analisis Data</button>
+                <button id="export-data-btn" class="btn btn-info"><i class="fas fa-download"></i> Ekspor Data</button>
+                <input type="file" id="import-data-file" accept=".json" class="hidden">
+                <button id="import-data-btn" class="btn btn-secondary"><i class="fas fa-upload"></i> Impor Data</button>
+                <button id="back-to-calendar-btn" class="btn btn-secondary hidden"><i class="fas fa-calendar-alt"></i> Kalender</button>
+            </div>
+        </header>
+
+        <div id="main-content">
+            <div id="calendar-view" class="view-panel">
+                <div class="calendar-header">
+                    <button id="prevMonth" class="nav-btn"><i class="fas fa-arrow-left"></i></button>
+                    <h2 id="currentMonthYear"></h2>
+                    <button id="nextMonth" class="nav-btn"><i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <div class="calendar-grid">
+                    <div class="day-name">Min</div>
+                    <div class="day-name">Sen</div>
+                    <div class="day-name">Sel</div>
+                    <div class="day-name">Rab</div>
+                    <div class="day-name">Kam</div>
+                    <div class="day-name">Jum</div>
+                    <div class="day-name">Sab</div>
+                </div>
+            </div>
+
+            <div id="schedule-panel" class="view-panel hidden">
+                <div class="panel-inner-header">
+                    <h3 id="selectedDateTitle"></h3>
+                    <button id="closePanel" class="close-btn"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div id="schedule-content">
+                    <h4 class="section-title">Tambah Jadwal</h4>
+                    <div class="form-grid">
+                        <input type="text" id="schedule-time" placeholder="Jam (misal: 06:00)" required>
+                        <input type="text" id="schedule-title" placeholder="Judul Video / Barang Jualan" required>
+                        <input type="text" id="schedule-account" placeholder="Nama Akun (misal: shpbisnis)">
+                        <select id="schedule-platform">
+                            <option value="youtube">YouTube</option>
+                            <option value="instagram">Instagram Reels</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="shopee">shopee</option>
+                            <option value="naik">naik</option>
+                        </select>
+                    </div>
+                    <button id="addSchedule" class="btn btn-primary full-width-btn">Tambahkan Jadwal</button>
+
+                    <div class="copy-paste-controls">
+                        <button id="copySchedule" class="btn btn-success"><i class="fas fa-copy"></i> Salin</button>
+                        <button id="pasteSchedule" class="btn btn-secondary" disabled><i class="fas fa-paste"></i> Tempel</button>
+                    </div>
+
+                    <h4 class="section-title">Jadwal Harian <small>(Geser untuk Pindah Urutan)</small></h4>
+                    <ul id="dailyScheduleList">
+                        </ul>
+                    <p class="status-message" id="uploadStatus"></p>
+                </div>
+            </div>
+
+            <div id="analysis-panel" class="view-panel hidden">
+                <div class="panel-inner-header">
+                    <h3>Analisis Upload Berhasil</h3>
+                </div>
+
+                <h4 class="section-title">Pilih Periode Analisis</h4>
+                
+                <div class="form-group custom-select-group">
+                    <select id="analysis-period-select">
+                        <option value="7">7 Hari Terakhir (Mingguan)</option>
+                        <option value="30">30 Hari Terakhir (Bulanan)</option>
+                        <option value="90">90 Hari Terakhir (Triwulan)</option>
+                        <option value="365">365 Hari Terakhir (Tahunan)</option>
+                        <option value="custom">Periode Kustom (Input Manual)</option>
+                    </select>
+                    <button id="run-analysis-btn" class="btn btn-primary">Tampilkan Data</button>
+                    <button id="export-analysis-btn" class="btn btn-success hidden"><i class="fas fa-file-export"></i> Ekspor Analisis</button>
+                </div>
+                
+                <div id="custom-period-input" class="form-group hidden">
+                    <label for="custom-days">Jumlah Hari Kustom (misal: 3, 14, 60):</label>
+                    <input type="number" id="custom-days" min="1" placeholder="Masukkan jumlah hari ke belakang" value="7">
+                </div>
+
+                <div id="analysis-results" class="hidden">
+                    <h4 class="section-title">Ringkasan Upload Berhasil <span id="analysis-period-label"></span></h4>
+                    
+                    <div id="summary-cards" class="summary-cards">
+                        <div class="card card-total">Total Upload Berhasil: <span id="analysis-total-upload">0</span></div>
+                    </div>
+
+                    <h4 class="section-title">Statistik Berhasil Upload per Platform</h4>
+                    <table class="analysis-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Jumlah Upload</th>
+                            </tr>
+                        </thead>
+                        <tbody id="platform-stats-body">
+                            </tbody>
+                    </table>
+
+                    <h4 class="section-title">Statistik Berhasil Upload per Akun & Platform</h4>
+                    <table class="analysis-table">
+                        <thead>
+                            <tr>
+                                <th>Akun</th>
+                                <th>Platform</th>
+                                <th>Jumlah Upload</th>
+                            </tr>
+                        </thead>
+                        <tbody id="account-stats-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
+        </div>
+
+        <div id="editModal" class="modal hidden">
+             <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Jadwal</h3>
+                    <button id="cancelEditHeader" class="close-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-index">
+                    <div class="form-group">
+                        <label for="edit-time">Jam:</label>
+                        <input type="text" id="edit-time" placeholder="Jam (misal: 06:00)">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-title">Judul:</label>
+                        <input type="text" id="edit-title" placeholder="Judul Video / Barang Jualan">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-account">Nama Akun:</label>
+                        <input type="text" id="edit-account" placeholder="Nama Akun (misal: shpbisnis)">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-platform">Platform:</label>
+                        <select id="edit-platform">
+                            <option value="youtube">YouTube</option>
+                            <option value="instagram">Instagram Reels</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="shopee">shopee</option>
+                            <option value="naik">naik</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelEdit" class="btn btn-secondary">Batal</button>
+                    <button id="saveEdit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

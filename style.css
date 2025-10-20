@@ -1,0 +1,325 @@
+:root {
+    --primary-color: #007bff; /* Biru */
+    --success-color: #28a745; /* Hijau */
+    --danger-color: #dc3545; /* Merah */
+    --secondary-color: #6c757d; /* Abu-abu */
+    --warning-color: #ffc107; /* Kuning */
+    --info-color: #17a2b8; /* Cyan */
+    --light-bg: #f8f9fa;
+    --dark-text: #333;
+    --border-color: #dee2e6;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+    border-radius: 0.5rem;
+}
+
+/* Header Aplikasi */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.app-header h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Tombol Umum */
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9rem;
+}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: #0056b3; }
+.btn-secondary { background-color: var(--secondary-color); color: white; }
+.btn-secondary:hover { background-color: #5a6268; }
+.btn-success { background-color: var(--success-color); color: white; }
+.btn-success:hover { background-color: #1e7e34; }
+.btn-warning { background-color: var(--warning-color); color: var(--dark-text); }
+.btn-warning:hover { background-color: #e0a800; }
+.full-width-btn { width: 100%; margin-bottom: 10px; }
+
+/* Struktur Panel Utama */
+#main-content {
+    min-height: 500px; 
+    position: relative; /* Penting untuk penempatan panel */
+}
+
+.view-panel {
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Header Kalender/Panel */
+.calendar-header, .panel-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 5px;
+}
+
+.calendar-header h2, .panel-inner-header h3 {
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    margin: 0;
+}
+
+.nav-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--dark-text);
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+/* Grid Kalender */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.day-name {
+    text-align: center;
+    padding: 10px 5px;
+    font-weight: bold;
+    background-color: var(--secondary-color);
+    color: white;
+    font-size: 0.9rem;
+}
+
+.date-cell {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    height: 70px;
+    cursor: pointer;
+    background-color: white;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.date-cell:hover { background-color: #e2f0ff; }
+.date-cell.today { background-color: var(--warning-color); color: var(--dark-text); }
+.date-cell.inactive { color: #ccc; background-color: #f7f7f7; cursor: default; }
+.date-number { font-size: 1.1em; font-weight: 600; }
+
+.upload-count {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 0.75em;
+    padding: 2px 5px;
+    border-radius: 0.25rem;
+    background-color: var(--success-color);
+    color: white;
+}
+
+/* Form Styling */
+.section-title {
+    font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.form-grid input, .form-grid select, 
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Kontrol Salin dan Tempel */
+.copy-paste-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.copy-paste-controls .btn { width: 50%; margin-bottom: 0; }
+.copy-paste-controls .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+
+/* Daftar Jadwal */
+#dailyScheduleList { list-style: none; padding: 0; }
+
+#dailyScheduleList li {
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px dotted var(--border-color);
+    cursor: grab;
+    transition: background-color 0.2s;
+}
+#dailyScheduleList li:hover { background-color: #f9f9f9; }
+.dragging { opacity: 0.5; border: 2px dashed #000; }
+
+.schedule-details { flex-grow: 1; display: flex; flex-direction: column; padding-right: 10px; font-size: 0.95rem; }
+.schedule-details .main-info { display: flex; align-items: center; margin-bottom: 3px; line-height: 1.3; }
+.schedule-details small { color: var(--secondary-color); font-size: 0.8em; }
+
+.platform-tag {
+    font-size: 0.7em;
+    padding: 3px 6px;
+    border-radius: 0.2rem;
+    color: white;
+    margin: 0 5px;
+    font-weight: normal;
+}
+.platform-youtube { background-color: #ff0000; }
+.platform-instagram { background-color: #c13584; }
+.platform-tiktok { background-color: #000000; }
+.platform-facebook { background-color: #3b5998; }
+.platform-shopee { background-color: #EE4D2D; }
+.platform-naik { background-color: #EE4D2d; }
+
+.schedule-actions { display: flex; gap: 5px; margin-left: 5px; flex-shrink: 0; }
+.action-btn { padding: 6px 8px; border: none; border-radius: 0.2rem; font-size: 0.75rem; font-weight: bold; flex-shrink: 0; }
+.edit-btn { background-color: var(--info-color); color: white; }
+.delete-btn { background-color: var(--danger-color); color: white; }
+
+.upload-status-toggle {
+    width: 20px; height: 20px; border: 2px solid var(--secondary-color); border-radius: 0.2rem; background-color: white; margin-left: 10px; flex-shrink: 0;
+}
+.upload-status-toggle.completed { background-color: var(--success-color); border-color: #1e7e34; position: relative; }
+.upload-status-toggle.completed::after {
+    content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: white; font-size: 14px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+
+/* Modal Edit */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 200;
+}
+.modal-content {
+    background-color: white; border-radius: 0.3rem; width: 90%; max-width: 450px; box-shadow: 0 0 1rem rgba(0,0,0,0.1); animation: fadeIn 0.3s;
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); }
+.modal-header h3 { margin: 0; font-size: 1.2rem; color: var(--primary-color); }
+.modal-body { padding: 15px; }
+.modal-body label { font-weight: bold; display: block; margin-bottom: 5px; margin-top: 10px; }
+.modal-footer { display: flex; justify-content: flex-end; padding: 10px 15px; border-top: 1px solid var(--border-color); gap: 10px; }
+.modal-footer .btn { width: auto; }
+
+
+/* --- Analisis Panel Styling --- */
+.custom-select-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.custom-select-group select {
+    flex-grow: 1;
+}
+
+.custom-select-group .btn {
+    width: auto;
+}
+
+.summary-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    flex: 1;
+    padding: 15px;
+    border-radius: 0.3rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 1rem;
+}
+.card span {
+    display: block;
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+.card-total { background-color: var(--primary-color); }
+
+/* Table Styling */
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.analysis-table th, .analysis-table td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.analysis-table thead th {
+    background-color: var(--light-bg);
+    font-weight: bold;
+    color: var(--dark-text);
+}
+
+.analysis-table tbody tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
